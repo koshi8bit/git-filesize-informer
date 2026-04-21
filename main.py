@@ -3,7 +3,8 @@ import sys
 from pathspec import PathSpec
 from pathspec.patterns import GitWildMatchPattern
 
-SIZE_LIMIT = 50 * 1024 * 1024
+SIZE_LIMIT_MB = 50
+SIZE_LIMIT = SIZE_LIMIT_MB * 1024 * 1024
 
 
 def load_gitignore_patterns(folder_path, base_path):
