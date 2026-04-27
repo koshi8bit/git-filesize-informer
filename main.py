@@ -106,7 +106,7 @@ def collect_gitignore_patterns(directory):
 
         if patterns:
             gitignore_patterns[root] = patterns
-            print(f"Найден .gitignore в {root} с {len(patterns)} паттернами")
+            # print(f"Найден .gitignore в {root} с {len(patterns)} паттернами")
 
     return gitignore_patterns
 
@@ -118,21 +118,23 @@ def find_large_files(directory, size_limit_mb=50):
     size_limit_bytes = size_limit_mb * 1024 * 1024
     root_path = os.path.abspath(directory)
 
-    print(f"Поиск файлов больше {size_limit_mb} MB в: {root_path}")
-    print("=" * 70)
+    print("!!! Файлы '.gitignore' должны быть в кодировке 1251 !!!")
+    print(f"Поиск файлов больше {size_limit_mb} MB в: '{root_path}'")
+    # print("=" * 70)
 
     # Собираем все .gitignore файлы
-    print("\nСбор .gitignore файлов...")
+    # print("\nСбор .gitignore файлов...")
     gitignore_patterns = collect_gitignore_patterns(root_path)
 
-    if gitignore_patterns:
-        print(f"\nНайдено {len(gitignore_patterns)} .gitignore файлов")
-    else:
-        print("\n.gitignore файлы не найдены")
+    # if gitignore_patterns:
+    #     print(f"\nНайдено {len(gitignore_patterns)} .gitignore файлов")
+    # else:
+    #     print("\n.gitignore файлы не найдены")
 
-    print("\n" + "-" * 70)
-    print(f"{'Размер':>12}  {'Файл'}")
-    print("-" * 70)
+    # print()
+    # print("\n" + "-" * 70)
+    # print(f"{'Размер':>12}  {'Файл'}")
+    # print("-" * 70)
 
     large_files_count = 0
     ignored_files_count = 0
@@ -159,12 +161,15 @@ def find_large_files(directory, size_limit_mb=50):
                         large_files_count += 1
                     else:
                         ignored_files_count += 1
+                        # print(file_path, gitignore_patterns, root_path)
 
             except (OSError, PermissionError):
                 # Пропускаем файлы, к которым нет доступа
                 continue
 
-    print("-" * 70)
+    if 0 == large_files_count:
+        print("Файлы не найдены")
+    # print("-" * 70)
     print(f"\nРезультаты:")
     print(f"  Найдено больших файлов (не проигнорированных): {large_files_count}")
     if ignored_files_count > 0:
